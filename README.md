@@ -1,6 +1,4 @@
-# NumberGuessingGame
-This number guessing game is an easy project built on Java where 
-the player has to guess a number given in between a range. If the 
-guessed number is right, the player wins else, loses. It also has the 
-concept of limited attempts where the player has to guess the 
-number within the limited attempts given
+# Encryption Decryption tool 
+The tool allows users to encrypt or decrypt text files using algorithms like 
+Caesar Cipher or AES. It will have a user-friendly menu to select 
+operations and customizable keys for encryption. 
