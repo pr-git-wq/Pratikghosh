@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Password Strength Checker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width: 350px;
+      text-align: center;
+    }
+    input[type="password"], input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .toggle {
+      margin-top: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #007bff;
+    }
+    .progress {
+      height: 10px;
+      width: 100%;
+      margin-top: 10px;
+      background: #ddd;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      
+    }
+    .weak { background: red; }
+    .medium { background: orange; }
+    .strong { background: green; }
+    .feedback {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .tips {
+      text-align: left;
+      margin-top: 15px;
+      font-size: 13px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Password Strength Checker</h2>
+    <input type="password" id="password" placeholder="Enter password">
+    <div class="toggle" onclick="togglePassword()">Show Password</div>
+    
+    <div class="progress">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    
+    <div class="feedback" id="feedback">Start typing...</div>
+    
+    <div class="tips">
+      <ul>
+        <li>Use at least 8 characters</li>
+        <li>Include uppercase and lowercase letters</li>
+        <li>Add numbers (0-9)</li>
+        <li>Use special characters (!@#$%^&*)</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const password = document.getElementById("password");
+    const feedback = document.getElementById("feedback");
+    const progressBar = document.getElementById("progress-bar");
+
+    function checkStrength(pwd) {
+      let strength = 0;
+      if (pwd.length >= 8) strength++;
+      if (/[A-Z]/.test(pwd)) strength++;
+      if (/[a-z]/.test(pwd)) strength++;
+      if (/[0-9]/.test(pwd)) strength++;
+      if (/[\W_]/.test(pwd)) strength++;
+
+      return strength;
+    }
+
+    password.addEventListener("input", () => {
+      const pwd = password.value;
+      const strength = checkStrength(pwd);
+
+      if (pwd.length === 0) {
+        feedback.textContent = "Start typing...";
+        progressBar.style.width = "0%";
+        progressBar.className = "progress-bar";
+      } else if (strength <= 2) {
+        feedback.textContent = "Weak Password";
+        progressBar.style.width = "30%";
+        progressBar.className = "progress-bar weak";
+      } else if (strength === 3 || strength === 4) {
+        feedback.textContent = "Medium Strength";
+        progressBar.style.width = "70%";
+        progressBar.className = "progress-bar medium";
+      } else {
+        feedback.textContent = "Strong Password";
+        progressBar.style.width = "100%";
+        progressBar.className = "progress-bar strong";
+      }
+    });
+
+    function togglePassword() {
+      const type = password.getAttribute("type") === "password" ? "text" : "password";
+      password.setAttribute("type", type);
+      document.querySelector(".toggle").textContent = type === "password" ? "Show Password" : "Hide Password";
+    }
+  </script>
+</body>
+</html>
